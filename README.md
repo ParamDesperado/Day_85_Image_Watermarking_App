@@ -3,7 +3,7 @@
 A modern, browser-based watermark generator that lets you add professional text or logo watermarks to your images — completely free and offline.
 
 🌐 **Live Demo:**  
-[Add your Vercel URL here](https://day-85-image-watermarking-app.vercel.app/)
+[URL](https://day-85-image-watermarking-app.vercel.app/)
 
 ---
 
