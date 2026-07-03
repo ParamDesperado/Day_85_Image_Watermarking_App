@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watermark Studio – Add Watermarks to Images</title>
+    <meta name="description"
+        content="Free browser-based watermark tool. Add text or image watermarks with full customization. Works offline, no upload needed.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- MAIN CANVAS AREA -->
+        <main class="canvas-area">
+            <div id="drop-zone" class="drop-zone">
+                <div class="drop-inner">
+                    <div class="drop-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="3" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <path d="M21 15l-5-5L5 21" />
+                        </svg>
+                    </div>
+                    <h2>Drop your image here</h2>
+                    <p>or <span class="link-text">browse files</span></p>
+                    <p class="formats">PNG, JPG, WEBP supported</p>
+                    <input type="file" id="image-upload" accept="image/*" hidden>
+                </div>
+            </div>
+
+            <div class="canvas-wrapper hidden" id="canvas-wrapper">
+                <canvas id="preview-canvas"></canvas>
+                <button id="btn-change-img" class="change-img-btn" title="Upload a different image">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    Change Image
+                </button>
+            </div>
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Watermark Studio</h1>
+                <p>Add professional watermarks to your images — free and offline.</p>
+            </div>
+
+            <div class="controls">
+
+                <!-- WATERMARK TYPE -->
+                <div class="control-group">
+                    <label class="group-label">Watermark Type</label>
+                    <div class="mode-toggle">
+                        <button id="mode-text" class="mode-btn active">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="4 7 4 4 20 4 20 7" />
+                                <line x1="9" y1="20" x2="15" y2="20" />
+                                <line x1="12" y1="4" x2="12" y2="20" />
+                            </svg>
+                            Text
+                        </button>
+                        <button id="mode-img" class="mode-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" />
+                                <circle cx="8.5" cy="8.5" r="1.5" />
+                                <polyline points="21 15 16 10 5 21" />
+                            </svg>
+                            Image / Logo
+                        </button>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- TEXT CONTROLS -->
+                <div id="text-controls">
+                    <div class="control-group">
+                        <label class="group-label" for="wm-text">Watermark Text</label>
+                        <input type="text" id="wm-text" value="© YourBrand" placeholder="Enter watermark text…">
+                    </div>
+
+                    <div class="control-group row-group">
+                        <div class="input-half">
+                            <label class="group-label" for="wm-color">Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="wm-color" value="#ffffff">
+                                <span id="color-hex">#ffffff</span>
+                            </div>
+                        </div>
+                        <div class="input-half">
+                            <label class="group-label" for="wm-font">Font</label>
+                            <select id="wm-font">
+                                <option value="Inter" selected>Inter</option>
+                                <option value="Outfit">Outfit</option>
+                                <option value="Playfair Display">Playfair Display</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Arial">Arial</option>
+                                <option value="monospace">Monospace</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group row-group">
+                        <div class="input-half">
+                            <label class="group-label" for="wm-weight">Weight</label>
+                            <select id="wm-weight">
+                                <option value="300">Light</option>
+                                <option value="400">Regular</option>
+                                <option value="600" selected>SemiBold</option>
+                                <option value="800">Bold</option>
+                            </select>
+                        </div>
+                        <div class="input-half">
+                            <label class="group-label" for="wm-style">Style</label>
+                            <select id="wm-style">
+                                <option value="normal" selected>Normal</option>
+                                <option value="italic">Italic</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="group-label">Font Size <span class="val-badge" id="size-val">48</span></label>
+                        <input type="range" id="wm-size" min="8" max="250" value="48" class="styled-range">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="group-label toggle-row">
+                            Smart Contrast Shadow
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="wm-shadow" checked>
+                                <span class="slider-track"></span>
+                            </label>
+                        </label>
+                        <p class="hint-text">Adds outline so text is visible on any background</p>
+                    </div>
+                </div>
+
+                <!-- IMAGE WATERMARK CONTROLS -->
+                <div id="img-controls" style="display:none;">
+                    <div class="control-group">
+                        <label class="group-label">Watermark Image / Logo</label>
+                        <button id="btn-wm-img-upload" class="upload-wm-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="17 8 12 3 7 8" />
+                                <line x1="12" y1="3" x2="12" y2="15" />
+                            </svg>
+                            Upload Logo or Image
+                        </button>
+                        <input type="file" id="wm-image-upload" accept="image/*" hidden>
+                        <p id="wm-img-name" class="file-name-label">No file selected</p>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="group-label">Scale <span class="val-badge" id="scale-val">20%</span></label>
+                        <input type="range" id="wm-scale" min="1" max="80" value="20" class="styled-range">
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- SHARED CONTROLS -->
+                <div class="control-group">
+                    <label class="group-label">Opacity <span class="val-badge" id="opacity-val">80%</span></label>
+                    <input type="range" id="wm-opacity" min="0" max="100" value="80" class="styled-range">
+                </div>
+
+                <div class="control-group">
+                    <label class="group-label">Rotation <span class="val-badge" id="rotation-val">0°</span></label>
+                    <input type="range" id="wm-rotation" min="-180" max="180" value="0" class="styled-range">
+                </div>
+
+                <div class="control-group">
+                    <label class="group-label toggle-row">
+                        Tile / Repeat Watermark
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="wm-tile">
+                            <span class="slider-track"></span>
+                        </label>
+                    </label>
+                    <p class="hint-text">Repeats watermark across the entire image</p>
+                </div>
+
+                <div class="control-group">
+                    <label class="group-label">Position</label>
+                    <div class="position-grid" id="position-grid">
+                        <button class="pos-btn" data-pos="top-left">↖</button>
+                        <button class="pos-btn" data-pos="top-center">↑</button>
+                        <button class="pos-btn" data-pos="top-right">↗</button>
+                        <button class="pos-btn" data-pos="center-left">←</button>
+                        <button class="pos-btn" data-pos="center">●</button>
+                        <button class="pos-btn" data-pos="center-right">→</button>
+                        <button class="pos-btn" data-pos="bottom-left">↙</button>
+                        <button class="pos-btn" data-pos="bottom-center">↓</button>
+                        <button class="pos-btn active" data-pos="bottom-right">↘</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FOOTER ACTIONS -->
+            <div class="sidebar-footer">
+                <div class="export-row">
+                    <button id="btn-export-png" class="primary-btn" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Export PNG
+                    </button>
+                    <button id="btn-export-jpg" class="secondary-btn" disabled>JPG</button>
+                </div>
+                <button id="btn-reset" class="ghost-btn" disabled>Reset Everything</button>
+
+                <div class="credit-bar">
+                    <span class="credit-dot"></span>
+                    <span>Built by <strong>Param Sangani</strong></span>
+                    <span class="credit-dot"></span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
